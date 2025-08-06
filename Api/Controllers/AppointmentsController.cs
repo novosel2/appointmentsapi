@@ -16,6 +16,9 @@ public class AppointmentsController : ControllerBase
         _appointmentsService = appointmentsService;
     }
 
+
+    // GET: /appointments/date/2025-08-06
+
     [HttpGet("date/{date}")]
     public async Task<IActionResult> GetAppointments(DateOnly date)
     {
@@ -23,12 +26,18 @@ public class AppointmentsController : ControllerBase
         return Ok(appointments);
     }
 
+
+    // GET: /appointments/811ea307-b212-4b9e-8b8d-0105433bb590
+
     [HttpGet("{appointmentId}")]
     public async Task<IActionResult> GetAppointmentById(Guid appointmentId)
     {
         AppointmentResponse appointment = await _appointmentsService.GetByIdAsync(appointmentId);
         return Ok(appointment);
     }
+
+
+    // POST: /appointments
 
     [HttpPost]
     public async Task<IActionResult> AddAppointment(AppointmentAddRequest request)

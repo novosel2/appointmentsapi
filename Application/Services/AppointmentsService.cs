@@ -24,7 +24,6 @@ public class AppointmentsService : IAppointmentsService
     public async Task<List<AppointmentResponse>> GetAppointmentsAsync(DateOnly date)
     {
         List<Appointment> appointments = await _appointmentsRepository.GetAppointmentsAsync(date);
-
         List<AppointmentResponse> responses = appointments.Select(a => a.ToResponse()).ToList();
 
         return responses;
@@ -36,7 +35,7 @@ public class AppointmentsService : IAppointmentsService
 
         if (appointment == null)
         {
-            throw new NotFoundException($"Appointment with ID {appointmentId} not found.");
+            throw new NotFoundException($"Appointment not found. ID {appointmentId}");
         }
 
         return appointment.ToResponse();
@@ -45,7 +44,6 @@ public class AppointmentsService : IAppointmentsService
     public async Task<AppointmentResponse> AddAppointmentAsync(AppointmentAddRequest request)
     {
         Appointment appointment = request.ToAppointment();
-
         Appointment addedAppointment = await _appointmentsRepository.AddAppointmentAsync(appointment);
 
         if (!await _appointmentsRepository.IsSavedAsync())
