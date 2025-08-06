@@ -31,6 +31,12 @@ public interface IAppointmentsRepository
     public Task<Appointment> AddAppointmentAsync(Appointment appointment);
 
     /// <summary>
+    /// Deletes an appointment
+    /// </summary>
+    /// <param name="appointment">Appointment to be deleted</param>
+    public void DeleteAppointment(Appointment appointment);
+
+    /// <summary>
     /// Checks if the changes have been saved to database.
     /// </summary>
     /// <returns>True if any changes are saved, false if not</returns>

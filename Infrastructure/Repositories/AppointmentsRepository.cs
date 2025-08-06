@@ -38,6 +38,11 @@ public class AppointmentsRepository : IAppointmentsRepository
         return result.Entity;
     }
 
+    public void DeleteAppointment(Appointment appointment) 
+    {
+        _db.Appointments.Remove(appointment);
+    }
+
     public async Task<bool> IsSavedAsync()
     {
         int saved = await _db.SaveChangesAsync();

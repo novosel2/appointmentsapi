@@ -53,4 +53,19 @@ public class AppointmentsService : IAppointmentsService
 
         return addedAppointment.ToResponse();
     }
+
+    public async Task<AppointmentResponse> DeleteAppointmentAsync(Guid appointmentId) 
+    {
+        Appointment appointment = await _appointmentsRepository.GetByIdAsync(appointmentId)
+            ?? throw new NotFoundException($"Appointment not found. ID {appointmentId}");
+
+        _appointmentsRepository.DeleteAppointment(appointment);
+
+        if (!await _appointmentsRepository.IsSavedAsync()) 
+        {
+            throw new SavingChangesFailedException("Failed to delete appointment.");
+        }
+
+        return appointment.ToResponse();
+    }
 }
