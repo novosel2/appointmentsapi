@@ -1,0 +1,75 @@
+## Build results
+bin/
+obj/
+[Bb]uild/
+[Ll]ogs/
+*.log
+
+## User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Rider
+.idea/
+*.sln.iml
+
+## VSCode
+.vscode/
+
+## Visual Studio
+.vs/
+Generated\ Files/
+
+## ASP.NET Core secrets
+secrets.json
+*.db
+
+## DotNet Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+*.deps.json
+
+## NuGet
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+*.nuspec
+*.psmdcp
+
+## Resharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+
+## Other files
+*.sqlite
+*.sqlite3
+*.db
+*.pid
+*.tgz
+*.gz
+*.tar
+*.zip
+*.bak
+*.tmp
+*.swp
+
+# OS junk
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+desktop.ini
+
+# dotenv files (optional if you're using .env)
+.env
+.env.*
+
+# User secrets (ASP.NET Core)
+**/appsettings.*.Secrets.json
+
+# Optional: remove publish results if not needed in repo
+publish/
