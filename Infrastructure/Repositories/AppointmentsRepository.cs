@@ -27,9 +27,20 @@ public class AppointmentsRepository : IAppointmentsRepository
             .ToListAsync();
     }
 
+    public async Task<Appointment?> GetByIdAsync(Guid appointmentId)
+    {
+        return await _db.Appointments.FirstOrDefaultAsync(a => a.Id == appointmentId);
+    }
+
     public async Task<Appointment> AddAppointmentAsync(Appointment appointment)
     {
         var result = await _db.Appointments.AddAsync(appointment);
         return result.Entity;
+    }
+
+    public async Task<bool> IsSavedAsync()
+    {
+        int saved = await _db.SaveChangesAsync();
+        return saved > 0;
     }
 }

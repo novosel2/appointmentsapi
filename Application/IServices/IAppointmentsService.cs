@@ -17,6 +17,13 @@ public interface IAppointmentsService
     public Task<List<AppointmentResponse>> GetAppointmentsAsync(DateOnly date);
 
     /// <summary>
+    /// Gets an appointment by its ID.
+    /// </summary>
+    /// <param name="appointmentId">ID of appointment</param>
+    /// <returns>Appointment response</returns>
+    public Task<AppointmentResponse> GetByIdAsync(Guid appointmentId);
+
+    /// <summary>
     /// Adds a new appointment.
     /// </summary>
     /// <param name="request">Appointment to be added</param>

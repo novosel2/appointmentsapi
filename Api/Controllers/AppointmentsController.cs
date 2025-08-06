@@ -16,11 +16,18 @@ public class AppointmentsController : ControllerBase
         _appointmentsService = appointmentsService;
     }
 
-    [HttpGet("{date}")]
+    [HttpGet("date/{date}")]
     public async Task<IActionResult> GetAppointments(DateOnly date)
     {
         List<AppointmentResponse> appointments = await _appointmentsService.GetAppointmentsAsync(date);
         return Ok(appointments);
+    }
+
+    [HttpGet("{appointmentId}")]
+    public async Task<IActionResult> GetAppointmentById(Guid appointmentId)
+    {
+        AppointmentResponse appointment = await _appointmentsService.GetByIdAsync(appointmentId);
+        return Ok(appointment);
     }
 
     [HttpPost]

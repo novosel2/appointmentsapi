@@ -1,4 +1,5 @@
-﻿using Application.IRepositories;
+﻿using Application.Exceptions;
+using Application.IRepositories;
 using Application.IServices;
 using Domain.Dto;
 using Domain.Entities;
@@ -29,11 +30,28 @@ public class AppointmentsService : IAppointmentsService
         return responses;
     }
 
+    public async Task<AppointmentResponse> GetByIdAsync(Guid appointmentId)
+    {
+        Appointment? appointment = await _appointmentsRepository.GetByIdAsync(appointmentId);
+
+        if (appointment == null)
+        {
+            throw new NotFoundException($"Appointment with ID {appointmentId} not found.");
+        }
+
+        return appointment.ToResponse();
+    }
+
     public async Task<AppointmentResponse> AddAppointmentAsync(AppointmentAddRequest request)
     {
         Appointment appointment = request.ToAppointment();
 
         Appointment addedAppointment = await _appointmentsRepository.AddAppointmentAsync(appointment);
+
+        if (!await _appointmentsRepository.IsSavedAsync())
+        {
+            throw new SavingChangesFailedException("Failed to save the appointment.");
+        }
 
         return addedAppointment.ToResponse();
     }
