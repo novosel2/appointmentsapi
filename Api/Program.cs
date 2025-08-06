@@ -8,14 +8,11 @@ var app = builder.Build();
 
 app.UsePathBase("/api");
 
-if (app.Environment.IsDevelopment())
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/api/swagger/v1/swagger.json", "Reservations API V1");
-    });
-}
+    c.SwaggerEndpoint("/api/swagger/v1/swagger.json", "Reservations API V1");
+});	
 
 app.UseHsts();
 app.UseHttpsRedirection();
