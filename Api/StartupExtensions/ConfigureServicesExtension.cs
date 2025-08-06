@@ -1,4 +1,5 @@
-﻿using Application.IRepositories;
+﻿using Api.Filters;
+using Application.IRepositories;
 using Application.IServices;
 using Application.Services;
 using Infrastructure.Data;
@@ -11,7 +12,10 @@ public static class ConfigureServicesExtension
 {
     public static IServiceCollection ConfigureServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddControllers();
+        services.AddControllers(opt =>
+        {
+            opt.Filters.Add(typeof(HandleExceptionsFilter));
+        });
         services.AddSwaggerGen();
 
         services.AddDbContext<AppDbContext>(
