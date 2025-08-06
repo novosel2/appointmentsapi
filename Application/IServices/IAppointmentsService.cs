@@ -1,0 +1,25 @@
+﻿using Domain.Dto;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Application.IServices;
+
+public interface IAppointmentsService
+{
+    /// <summary>
+    /// Get all appointments for a specific date.
+    /// </summary>
+    /// <param name="date">Date of appointments</param>
+    /// <returns>List of appointment responses with specified date</returns>
+    public Task<List<AppointmentResponse>> GetAppointmentsAsync(DateOnly date);
+
+    /// <summary>
+    /// Adds a new appointment.
+    /// </summary>
+    /// <param name="request">Appointment to be added</param>
+    /// <returns>Added appointment</returns>
+    public Task<AppointmentResponse> AddAppointmentAsync(AppointmentAddRequest request);
+}
