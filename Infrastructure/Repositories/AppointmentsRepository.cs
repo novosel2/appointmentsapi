@@ -43,9 +43,17 @@ public class AppointmentsRepository : IAppointmentsRepository
         _db.Appointments.Remove(appointment);
     }
 
+    public void UpdateAppointment(Appointment appointment, Appointment updatedAppointment)
+    {
+        _db.Entry<Appointment>(appointment).CurrentValues.SetValues(updatedAppointment);
+        _db.Entry<Appointment>(appointment).State = EntityState.Modified;
+    }
+
     public async Task<bool> IsSavedAsync()
     {
         int saved = await _db.SaveChangesAsync();
         return saved > 0;
     }
+
+    
 }

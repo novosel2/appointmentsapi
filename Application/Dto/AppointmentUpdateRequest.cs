@@ -1,4 +1,4 @@
-﻿using Application.Validation;
+using Application.Validation;
 using Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -8,12 +8,17 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Domain.Dto;
-public class AppointmentAddRequest
+public class AppointmentUpdateRequest
 {
-    public string? ClientFirstName { get; set; }
-    public string? ClientLastName { get; set; }
-    public string? AppointmentType { get; set; }
+    [Required]
+    public Guid Id { get; set; }
 
+    public string? ClientFirstName { get; set; }
+
+    public string? ClientLastName { get; set; }
+
+    public string? AppointmentType { get; set; }
+    
     [Required]
     public DateOnly Date { get; set; }
 
@@ -31,7 +36,7 @@ public class AppointmentAddRequest
     {
         return new Appointment
         {
-            Id = Guid.NewGuid(),
+            Id = Id,
             ClientFirstName = ClientFirstName,
             ClientLastName = ClientLastName,
             AppointmentType = AppointmentType,
