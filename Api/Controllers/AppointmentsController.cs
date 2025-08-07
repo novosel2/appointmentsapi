@@ -1,10 +1,11 @@
 ﻿using Application.IServices;
 using Domain.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace Api.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("appointments")]
 public class AppointmentsController : ControllerBase
@@ -47,7 +48,8 @@ public class AppointmentsController : ControllerBase
     }
 
 
-    // DELETE: /appointments/{appointmentId}
+    // DELETE: /appointments/811ea307-b212-4b9e-8b8d-0105433bb590
+
 
     [HttpDelete("{appointmentId}")]
     public async Task<IActionResult> DeleteAppointment(Guid appointmentId) 

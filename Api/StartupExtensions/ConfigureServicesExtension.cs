@@ -1,10 +1,14 @@
-﻿using Api.Filters;
+﻿using System.Text;
+using Api.Filters;
 using Application.IRepositories;
 using Application.IServices;
 using Application.Services;
+using Domain.Entities;
 using Infrastructure.Data;
 using Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Api.StartupExtensions;
 
@@ -20,6 +24,34 @@ public static class ConfigureServicesExtension
 
         services.AddDbContext<AppDbContext>(
             options => options.UseNpgsql(configuration.GetConnectionString("AppConnectionString")));
+        services.AddDbContext<AuthDbContext>(
+            options => options.UseNpgsql(configuration.GetConnectionString("AuthConnectionString")));
+        
+        services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<AuthDbContext>();
+        
+        services.AddAuthentication(options =>
+        {
+            options.DefaultScheme =
+            options.DefaultForbidScheme =
+            options.DefaultSignInScheme =
+            options.DefaultSignOutScheme =
+            options.DefaultChallengeScheme =
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
+        .AddJwtBearer(options =>
+        {
+            options.TokenValidationParameters = new TokenValidationParameters()
+            {
+                ValidateAudience = true,
+                ValidateIssuer = true,
+                ValidAudience = configuration["Jwt:Audience"],
+                ValidIssuer = configuration["Jwt:Issuer"],
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(
+                    Encoding.UTF8.GetBytes(configuration["Jwt:SigningKey"]!)
+                )
+            };
+        });
 
         // Register repositories
         services.AddScoped<IAppointmentsRepository, AppointmentsRepository>();
