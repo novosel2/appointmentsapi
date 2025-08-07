@@ -29,4 +29,18 @@ public interface IAppointmentsService
     /// <param name="request">Appointment to be added</param>
     /// <returns>Added appointment</returns>
     public Task<AppointmentResponse> AddAppointmentAsync(AppointmentAddRequest request);
+
+    /// <summary>
+    /// Delete an appointment by id
+    /// </summary>
+    /// <param name="appointmentId">Id of appointment</param>
+    /// <returns>Deleted appointment object</returns>
+    public Task<AppointmentResponse> DeleteAppointmentAsync(Guid appointmentId);
+
+    /// <summary>
+    /// Update an appointment with new information
+    /// </summary>
+    /// <param name="request">Updated appointment</param>
+    /// <returns>Updated appointment</returns>
+    public Task<AppointmentResponse> UpdateAppointmentAsync(AppointmentUpdateRequest request);
 }

@@ -45,4 +45,24 @@ public class AppointmentsController : ControllerBase
         AppointmentResponse appointment = await _appointmentsService.AddAppointmentAsync(request);
         return Ok(appointment);
     }
+
+
+    // DELETE: /appointments/{appointmentId}
+
+    [HttpDelete("{appointmentId}")]
+    public async Task<IActionResult> DeleteAppointment(Guid appointmentId) 
+    {
+        AppointmentResponse appointment = await _appointmentsService.DeleteAppointmentAsync(appointmentId);
+        return Ok(appointment);
+    }
+
+
+    // PUT: /appointments
+    
+    [HttpPut]
+    public async Task<IActionResult> UpdateAppointment(AppointmentUpdateRequest request)
+    {
+        AppointmentResponse appointment = await _appointmentsService.UpdateAppointmentAsync(request);
+        return Ok(appointment);
+    }
 }
