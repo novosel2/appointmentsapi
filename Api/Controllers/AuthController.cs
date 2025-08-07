@@ -12,8 +12,7 @@ public class AuthController : ControllerBase
 
     public AuthController(IAuthService authService)
     {
-        _authService = authService
-            _authService = authService;
+        _authService = authService;
     }
 
     [HttpPost("login")]
@@ -21,5 +20,12 @@ public class AuthController : ControllerBase
     {
         UserResponse userResponse = await _authService.LoginAsync(loginDto);
         return Ok(userResponse);
+    }
+
+    [HttpPost("register")]
+    public async Task<IActionResult> Register()
+    {
+        await _authService.RegisterAsync();
+        return Ok();
     }
 }

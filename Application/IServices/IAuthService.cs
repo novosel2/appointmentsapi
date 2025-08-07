@@ -10,4 +10,6 @@ public interface IAuthService
     /// <param name="loginDto">Login information</param>
     /// <returns>User response with a Json Web Token</returns>
     public Task<UserResponse> LoginAsync(LoginDto loginDto);
+
+    public Task RegisterAsync();
 }

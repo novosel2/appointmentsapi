@@ -9,6 +9,7 @@ using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 
 namespace Api.StartupExtensions;
 
@@ -20,7 +21,32 @@ public static class ConfigureServicesExtension
         {
             opt.Filters.Add(typeof(HandleExceptionsFilter));
         });
-        services.AddSwaggerGen();
+        services.AddSwaggerGen(options =>
+        {
+            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                In = ParameterLocation.Header,
+                Description = "Please enter a valid token",
+                Name = "Authorization",
+                Type = SecuritySchemeType.Http,
+                BearerFormat = "JWT",
+                Scheme = "Bearer"
+            });
+            options.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id="Bearer"
+                        }
+                    },
+                    new string[]{}
+                }
+            });
+        });
 
         services.AddDbContext<AppDbContext>(
             options => options.UseNpgsql(configuration.GetConnectionString("AppConnectionString")));
@@ -58,6 +84,8 @@ public static class ConfigureServicesExtension
 
         // Register services
         services.AddScoped<IAppointmentsService, AppointmentsService>();
+        services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<ITokenService, TokenService>();
 
         return services;
     }
