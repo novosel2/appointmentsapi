@@ -11,7 +11,7 @@ namespace Domain.Dto;
 public class AppointmentUpdateRequest
 {
     [Required]
-    public Guid Id { get; set; }
+    public Guid AppointmentId { get; set; }
 
     public string? ClientFirstName { get; set; }
 
@@ -36,7 +36,7 @@ public class AppointmentUpdateRequest
     {
         return new Appointment
         {
-            Id = Id,
+            Id = AppointmentId,
             ClientFirstName = ClientFirstName,
             ClientLastName = ClientLastName,
             AppointmentType = AppointmentType,

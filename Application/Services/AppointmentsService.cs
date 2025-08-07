@@ -71,8 +71,8 @@ public class AppointmentsService : IAppointmentsService
 
     public async Task<AppointmentResponse> UpdateAppointmentAsync(AppointmentUpdateRequest request)
     {
-        Appointment appointment = await _appointmentsRepository.GetByIdAsync(request.Id)
-            ?? throw new NotFoundException($"Appointment not found. ID {request.Id}");
+        Appointment appointment = await _appointmentsRepository.GetByIdAsync(request.AppointmentId)
+            ?? throw new NotFoundException($"Appointment not found. ID {request.AppointmentId}");
 
         Appointment updatedAppointment = request.ToAppointment();
 
