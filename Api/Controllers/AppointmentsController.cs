@@ -28,7 +28,7 @@ public class AppointmentsController : ControllerBase
 
 
     // GET: /appointments/811ea307-b212-4b9e-8b8d-0105433bb590
-
+    
     [HttpGet("{appointmentId}")]
     public async Task<IActionResult> GetAppointmentById(Guid appointmentId)
     {
