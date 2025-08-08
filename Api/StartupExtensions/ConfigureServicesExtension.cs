@@ -23,6 +23,7 @@ public static class ConfigureServicesExtension
         });
         services.AddSwaggerGen(options =>
         {
+            options.SwaggerDoc("v1", new OpenApiInfo { Title = "Appointments API", Version = "v1" });
             options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
                 In = ParameterLocation.Header,
@@ -53,11 +54,16 @@ public static class ConfigureServicesExtension
         services.AddDbContext<AuthDbContext>(
             options => options.UseNpgsql(configuration.GetConnectionString("AuthConnectionString")));
         
-        services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<AuthDbContext>();
+        services.AddIdentity<AppUser, AppRole>(options => 
+        {
+            options.Password.RequireDigit = false;
+            options.Password.RequiredLength = 4;
+            options.Password.RequireNonAlphanumeric = false;
+            options.Password.RequireUppercase = false;
+        }).AddEntityFrameworkStores<AuthDbContext>();
         
         services.AddAuthentication(options =>
         {
-            options.DefaultScheme =
             options.DefaultForbidScheme =
             options.DefaultSignInScheme =
             options.DefaultSignOutScheme =
@@ -66,7 +72,7 @@ public static class ConfigureServicesExtension
         })
         .AddJwtBearer(options =>
         {
-            options.TokenValidationParameters = new TokenValidationParameters()
+            options.TokenValidationParameters = new TokenValidationParameters
             {
                 ValidateAudience = true,
                 ValidateIssuer = true,
@@ -75,7 +81,9 @@ public static class ConfigureServicesExtension
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(
                     Encoding.UTF8.GetBytes(configuration["Jwt:SigningKey"]!)
-                )
+                ),
+                RequireExpirationTime = false,
+                ValidateLifetime = false
             };
         });
 

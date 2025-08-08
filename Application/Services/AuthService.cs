@@ -3,7 +3,6 @@ using Application.Exceptions;
 using Application.IServices;
 using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
 namespace Application.Services;
 
@@ -20,10 +19,8 @@ public class AuthService : IAuthService
 
     public async Task<UserResponse> LoginAsync(LoginDto loginDto)
     {
-        AppUser user = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == loginDto.UserName)
+        AppUser user = await _userManager.FindByNameAsync(loginDto.UserName)
             ?? throw new UnauthorizedException("Invalid username or password.");
-
-        Console.WriteLine($"PASSWORD HASH: {user.PasswordHash}{user.UserName}{user.Email}");
 
         if (! await _userManager.CheckPasswordAsync(user, loginDto.Password))
         {
@@ -38,7 +35,8 @@ public class AuthService : IAuthService
             UserName = user.UserName,
             Email = user.Email,
             FirstName = user.FirstName,
-            LastName = user.LastName
+            LastName = user.LastName,
+            Token = jwt
         };
 
         return userResponse;
@@ -49,7 +47,7 @@ public class AuthService : IAuthService
     {
         string username = "ivana";
         string email = "ivana@gmail.com";
-        string password = "password123";
+        string password = "pass";
 
         AppUser user = new AppUser()
         {
@@ -59,7 +57,14 @@ public class AuthService : IAuthService
             LastName = "Mudresic Miholjevic"
         };
 
-        await _userManager.DeleteAsync(user);
-        await _userManager.CreateAsync(user, password);
+        IdentityResult result = await _userManager.CreateAsync(user, password);
+
+        if (result.Succeeded)
+            Console.WriteLine("USER ADDED SUCCESSFULLY");
+        else
+        {
+            foreach (var error in result.Errors)
+                Console.WriteLine(error.Description);
+        }
     }
 }
