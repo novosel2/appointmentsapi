@@ -17,6 +17,8 @@ app.UseSwaggerUI(c =>
 app.UseHsts();
 app.UseHttpsRedirection();
 
+app.UseCors("AllowAllOrigins");
+
 app.UseRouting();
 
 app.UseAuthentication();

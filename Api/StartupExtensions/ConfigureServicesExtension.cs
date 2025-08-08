@@ -21,6 +21,7 @@ public static class ConfigureServicesExtension
         {
             opt.Filters.Add(typeof(HandleExceptionsFilter));
         });
+
         services.AddSwaggerGen(options =>
         {
             options.SwaggerDoc("v1", new OpenApiInfo { Title = "Appointments API", Version = "v1" });
@@ -47,6 +48,14 @@ public static class ConfigureServicesExtension
                     new string[]{}
                 }
             });
+        });
+
+        services.AddCors(options =>
+        {
+            options.AddPolicy("AllowAllOrigins",
+                builder => builder.AllowAnyOrigin()
+                                  .AllowAnyMethod()
+                                  .AllowAnyHeader());
         });
 
         services.AddDbContext<AppDbContext>(
