@@ -27,6 +27,7 @@ public class HandleExceptionsFilter : IExceptionFilter
         {
             SavingChangesFailedException => CreateProblemDetails(exception, httpContext, "Saving changes failed", 500),
             NotFoundException => CreateProblemDetails(exception, httpContext, "Not Found", 404),
+            UnauthorizedException => CreateProblemDetails(exception, httpContext, "Unauthorized access", 401),
             _ => throw exception
         };
 
