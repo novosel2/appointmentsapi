@@ -17,6 +17,14 @@ public static class ConfigureServicesExtension
 {
     public static IServiceCollection ConfigureServices(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddCors(options =>
+        {
+            options.AddPolicy("AllowAllOrigins",
+                builder => builder.AllowAnyOrigin()
+                                  .AllowAnyMethod()
+                                  .AllowAnyHeader());
+        });
+        
         services.AddControllers(opt =>
         {
             opt.Filters.Add(typeof(HandleExceptionsFilter));
@@ -48,14 +56,6 @@ public static class ConfigureServicesExtension
                     new string[]{}
                 }
             });
-        });
-
-        services.AddCors(options =>
-        {
-            options.AddPolicy("AllowAllOrigins",
-                builder => builder.AllowAnyOrigin()
-                                  .AllowAnyMethod()
-                                  .AllowAnyHeader());
         });
 
         services.AddDbContext<AppDbContext>(
